@@ -57,7 +57,7 @@
     <span id = "dpr{{i.id}}" class="divpr">
     <button href="#" id = "pr{{i.id}}" class="btn btn-primary cart">Add to Cart</button></span>
     <br><br>
-      <a href="/blog/products/{{i.id}}/"><button id = "qv{{i.id}}" class="btn btn-primary">Quick View</button></a>
+      <a href="/shop/products/{{i.id}}/"><button id = "qv{{i.id}}" class="btn btn-primary">Quick View</button></a>
   </div>
 </div>
 </div>
@@ -132,7 +132,7 @@ function popOver(cart)
     popstr  = popstr + document.getElementById('name'+item).innerHTML +"    "+cart[item][0]+"<br>";
     i+=1;
   }
-  popstr += "<a href = '/blog/checkout/'><button class = 'btn btn-primary' id='checkout'>Checkout</button></a><button class='btn btn-primary' onclick='clearCart()'id='clearCart'>Clear Cart</button>";
+  popstr += "<a href = '/shop/checkout/'><button class = 'btn btn-primary' id='checkout'>Checkout</button></a><button class='btn btn-primary' onclick='clearCart()'id='clearCart'>Clear Cart</button>";
   document.getElementById('pop').setAttribute('data-content',popstr);
 }
 function clearCart()

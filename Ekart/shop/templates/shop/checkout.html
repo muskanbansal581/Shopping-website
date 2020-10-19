@@ -1,0 +1,114 @@
+{% extends 'shop/basic.html' %}
+
+{% block title %}heckOut Page{% endblock %}
+
+{% block b %}
+<div class="container">
+  <div>
+    <h1>Your Bill is <span id  = 'pricedisplay'></span> </h1>
+
+  </div>
+  <h2>Step 1 - My Awesome Cart Express Checkout - Review your Cart items</h2>
+
+  <div >
+    <ul class='list-group' id='items'>
+ </ul>
+  </div>
+  <h1>Step 2 - Enter Email Address and other Details</h1>
+  <div class="">
+    <form action = 'shop/checkout/' method="post">{% csrf_token %}
+      <div class="form-group col-md-6">
+        <label for="itemJson" ></label>
+        <input type="hidden" name="json" id ="itemJson" value="">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputname">Name</label>
+        <input type="text" class="form-control" id="inputname" placeholder="Email" name ="name">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputEmail4">Email</label>
+          <input type="email" class="form-control" id="inputEmail4" placeholder="Email" name ="email">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="inputPassword4">Password</label>
+          <input type="password" class="form-control" id="inputPassword4" placeholder="Password"name="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="inputAddress">Address 1</label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St"name="address1">
+      </div>
+      <div class="form-group">
+        <label for="inputAddress2">Address 2</label>
+        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" name="address2">
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputCity">City</label>
+          <input type="text" class="form-control" id="inputCity"name="city">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="inputState">State</label>
+            <input type="text" class="form-control" id="inputState"name="state">
+        </div>
+        <div class="form-group col-md-2">
+          <label for="inputZip">Zip</label>
+          <input type="text" class="form-control" id="inputZip"name="zip">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="inputCity">Phone No.</label>
+          <input type="tel" class="form-control" id="inputPhone" name='phone'>
+        </div>
+        <br>
+      <button type="submit" class="btn btn-primary">Sign in</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+{%block js%}
+<script>
+  if(localStorage.getItem('cart') == null)
+  {
+
+    var cart = {}
+  }
+  else
+  {
+
+    cart = JSON.parse(localStorage.getItem('cart'))
+
+  }
+  var sum = 0;
+  var totalcost = 0;
+  if($.isEmptyObject(cart))
+  {
+    mystr = '<li>Your Cart is empty,plz add some items to your cartbefore checking out!</li>';
+       $('#items').append(mystr)
+  }
+  else
+  {
+  for(var item in cart)
+  {
+    var qty = cart[item][0];
+    var name = cart[item][1];
+    totalcost = totalcost + (cart[item][2]*qty);
+  var mystr    = "<li class='list-group-item d-flex justify-content-between align-items-center'>"+name+"<span class='badge badge-secondary'>"+qty+"</span></li>";
+   $('#items').append(mystr)
+ }
+ document.getElementById('pricedisplay').innerHTML = totalcost;
+}
+$('.cart').innerHTML = sum;
+$('#itemJson').val(JSON.stringify(cart));
+var t ={{ thank }};
+ if (t == 1 )
+ {
+alert("Your order has placed Suuccessfully");
+localStorage.clear();
+$('#items').innerHTML = '<li>Your Cart is empty,plz add some items to your cartbefore checking out!</li>';
+}
+
+</script>
+  {%endblock%}
