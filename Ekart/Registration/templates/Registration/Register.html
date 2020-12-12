@@ -1,0 +1,34 @@
+{% extends 'shop/basic.html' %}
+{% load static %}
+{% block css%}
+<style>
+  .resend-otp{
+  border:None;
+  background-color:white;
+  }
+</style>
+{% endblock %}
+{% block b %}
+{% if otp %}
+<form method = 'POst'>
+  {% csrf_token %}
+  <h1>
+    Enter your OTP</h1>
+  <input type ='text' name = 'otp' placeholder="otp">
+  <input type="hidden" name="user" value="{{user.username}}">
+  <input type="submit" name="submit" value="submit">
+</form>
+<form  method="POST">
+  {% csrf_token %}
+  <input type="hidden" name="user" value="{{user.username}}">
+  <input  class = "resend-otp" type="submit"value="Resend OTP">
+</form>
+{% else %}
+<form class="" enctype = 'multipart/form-data' action="#" method="post">
+{% csrf_token %}
+{{ user_form.as_p }}
+{{ profile_form.as_p }}
+<input type="submit" name="" value="Register">
+  </form>
+{% endif %}
+{% endblock %}

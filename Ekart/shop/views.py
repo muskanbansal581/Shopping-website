@@ -1,6 +1,9 @@
 from django.shortcuts import render
-from shop.models import Product,OrderUpdate,Order,User
+from shop.models import Product,OrderUpdate,Order
+from django.http import HttpResponse
+import json
 # Create your views here.
+from django.contrib.auth.models import User
 def index(request):
 
     allProds = []
@@ -16,15 +19,15 @@ def index(request):
 def about(request):
     return render(request,"shop/about.html")
 
-def contact(request):
-    if request.method == "POST":
-        name = request.POST.get('name','')
-        email = request.POST.get('email','')
-        phone = request.POST.get('phone','')
-        query = request.POST.get('text','')
-        user= User(name = name,email = email,phone = phone,query = query)
-        user.save()
-    return render(request,"shop/Contactus.html")
+# def contact(request):
+#     if request.method == "POST":
+#         name = request.POST.get('name','')
+#         email = request.POST.get('email','')
+#         phone = request.POST.get('phone','')
+#         query = request.POST.get('text','')
+#         user= User(name = name,email = email,phone = phone,query = query)
+#         user.save()
+#     return render(request,"shop/Contactus.html")
 
 def tracker(request):
     if(request.method == 'POST'):
@@ -86,8 +89,11 @@ def checkout(request):
         state = request.POST.get('state','')
         zip_code = request.POST.get('zip','')
         phone = request.POST.get('phone','')
-        order = Order(order_items=item_json,name = name,email = email,phone = phone,address=address,city=city,state=state,zip_code=zip_code)
+        user = User.objects.filter(username=name)
+        print(user)
+        order = Order(order_items=item_json,user=user[0],phone = phone,address=address,city=city,state=state,zip_code=zip_code)
         order.save()
+        print(order.order_id)
         update = OrderUpdate(order_id = order.order_id,update_desc="the order has been placed")
         update.save()
         thank = 1

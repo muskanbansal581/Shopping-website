@@ -1,8 +1,11 @@
 {% extends 'shop/basic.html' %}
 
-{% block title %}heckOut Page{% endblock %}
+
+{% block title %}CheckOut Page{% endblock %}
 
 {% block b %}
+ {% if user.is_authenticated %}
+
 <div class="container">
   <div>
     <h1>Your Bill is <span id  = 'pricedisplay'></span> </h1>
@@ -16,7 +19,7 @@
   </div>
   <h1>Step 2 - Enter Email Address and other Details</h1>
   <div class="">
-    <form action = 'shop/checkout/' method="post">{% csrf_token %}
+    <form action = '/shop/checkout/' method="post">{% csrf_token %}
       <div class="form-group col-md-6">
         <label for="itemJson" ></label>
         <input type="hidden" name="json" id ="itemJson" value="">
@@ -67,6 +70,9 @@
     </form>
   </div>
 </div>
+{%else%}
+<h1><a href="/Registration/user_login/">Login, </a> Required</h1>
+{%endif%}
 {% endblock %}
 {%block js%}
 <script>
