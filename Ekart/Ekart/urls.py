@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
-
+from Registration import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/',include('shop.urls')),
     path('Registration/',include('Registration.urls')),
     path('',include('shop.urls')),
+    path('Registration/change_password/<uidb64>/<token>/', views.change_password, name='change_password'),
  ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
